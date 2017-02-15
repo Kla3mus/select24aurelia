@@ -1,0 +1,5 @@
+<template>
+    <select name.bind="name" id.bind="name" value.bind="selected">
+        <option repeat.for="option of options" model.bind="option[valueproperty]" value="${option[valueproperty]}">${option[labelproperty]}</option>
+    </select>
+</template>
