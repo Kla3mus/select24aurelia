@@ -73,13 +73,6 @@ export class Select2Thing {
                 else
                     this.selected = this.getSingleValue();
             }
-            
-            /*
-            if (evt.originalEvent) {
-                return;
-            }
-            this.element.dispatchEvent(new Event('change'));
-            */
         });
     };
  
