@@ -9,7 +9,7 @@ export class Select2Thing {
     @bindable({ defaultBindingMode: bindingMode.twoWay }) labelproperty: string = 'label';
     @bindable({ defaultBindingMode: bindingMode.twoWay }) valueproperty: string = 'value';
     @bindable({ defaultBindingMode: bindingMode.twoWay }) options: any[] = []; 
-    @bindable({ defaultBindingMode: bindingMode.twoWay }) multiselect: boolean = false; 
+    @bindable({ defaultBindingMode: bindingMode.twoWay }) multiselect: string = null;
     @bindable({ defaultBindingMode: bindingMode.twoWay, changeHandler: 'selectedIsChanged' }) selected: any = null; 
 
     select2 = null;
@@ -17,16 +17,16 @@ export class Select2Thing {
 
     selectedIsChanged() {
         if (this.select2 != null) {
-            
             if (this.shouldISetSelected()) {
-                if (this.multiselect) {
+                if (this.multiselect == "true") {
                     if (this.selected.constructor === Array)
                         this.select2.val(this.selected).trigger("change");
                     else
                         this.select2.val([this.selected]).trigger("change");
                 }
                 else {
-                    this.select2.val(parseInt(this.selected)).trigger("change");
+                    if (!isNaN(this.selected))
+                        this.select2.val(parseInt(this.selected)).trigger("change");
                 }
             }
         }
@@ -47,7 +47,7 @@ export class Select2Thing {
     }
 
     private shouldISetSelected() {
-        if (this.multiselect) {
+        if (this.multiselect == "true") {
             let mh = this.getMultiValues();
             if (JSON.stringify(this.selected.sort()) === JSON.stringify(mh.sort())) {
                 return false;
@@ -55,7 +55,7 @@ export class Select2Thing {
             return true;
         }
         else {
-            if (this.selected != this.select2.val() && this.select2.val() !== undefined) {
+            if (this.selected !== NaN && this.selected != this.select2.val() && this.select2.val() !== undefined) {
                 return true;
             }
             return false;
@@ -68,7 +68,7 @@ export class Select2Thing {
         this.select2.on('change', evt => {
             
             if (this.shouldISetSelected()) {
-                if (this.multiselect)
+                if (this.multiselect == "true")
                     this.selected = this.getMultiValues();
                 else
                     this.selected = this.getSingleValue();
