@@ -15,11 +15,9 @@ export class Select2Thing {
 
     select2 = null;
     constructor(private element: Element) {
-        console.log("selected value in constructor: ", this.selected);
     }
 
     selectedIsChanged() {
-        console.log("selected value in selectedIsChanged: ", this.selected);
         if (this.select2 != null) {
             if (this.shouldISetSelected()) {
                 if (this.multiselect == "true") {
@@ -71,21 +69,13 @@ export class Select2Thing {
     }
 
     attached() {
-        console.log("selected value in attached, before creation: ", this.selected);
-
         //Create the select2 dropdown
         this.select2 = $(this.element).find('select').select2({
             placeholder: "No selection",
             allowClear: true
         }); 
-        console.log("selected value in attached, after creation: ", this.selected);
-
         this.select2.val(this.selected).trigger("change"); //Select the one that is set to default select.
-        console.log("selected value in attached, after setting value as default: ", this.selected);
-
         this.select2.on('change', evt => {
-            console.log("selected value changed event: ", this.selected);
-
             if (this.shouldISetSelected()) {
                 if (this.multiselect == "true")
                     this.selected = this.getMultiValues();
