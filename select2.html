@@ -1,6 +1,7 @@
 <template>
 
     <select if.bind="multiselect == 'false'" name.bind="name" id.bind="name" value.bind="selected">
+        <option></option>
         <option repeat.for="option of options"
                 model.bind="option[valueproperty]"
                 value="${option[valueproperty]}">
