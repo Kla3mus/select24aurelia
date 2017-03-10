@@ -47,7 +47,7 @@ export class Select2Thing {
 
     private getSingleValue() {
         let value = this.select2.val();
-        if (value == null)
+        if (value == null || value === "")
             return null;
         return parseInt(value);
     }
@@ -69,13 +69,17 @@ export class Select2Thing {
     }
 
     attached() {
+
         //Create the select2 dropdown
         this.select2 = $(this.element).find('select').select2({
             placeholder: "No selection",
             allowClear: true
         }); 
+
         this.select2.val(this.selected).trigger("change"); //Select the one that is set to default select.
+
         this.select2.on('change', evt => {
+
             if (this.shouldISetSelected()) {
                 if (this.multiselect == "true")
                     this.selected = this.getMultiValues();
